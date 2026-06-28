@@ -1,21 +1,61 @@
-
 version: 2
 
-models:
-    - name: my_first_dbt_model
-      description: "A starter dbt model"
-      columns:
-          - name: id
-            description: "The primary key for this table"
-            tests:
-                - unique
-                - not_null
+sources:
+  - name: raw
+    schema: gz_raw_data
+    description: Dataset that contains Greenweez raw data tables
+    tables:
+      - name: sales
+        identifier: raw_gz_sales
+        description: Sales of Greenweez. We have one row per product_id found in each orders_id.
 
-    - name: my_second_dbt_model
-      description: "A starter dbt model"
-      columns:
-          - name: id
-            description: "The primary key for this table"
+        tests:
+          - unique:
+              column_name: "(orders_id || '-' || pdt_id)"
+
+        columns:
+          - name: date_date
+            description: Date of purchase
+
+          - name: orders_id
+            description: Identifier of the order
+
+          - name: pdt_id
+            description: Identifier of the product
+
+          - name: revenue
+            description: Revenue of the product in the order
+
+          - name: quantity
+            description: Quantity of product in the order
+            
+
+      - name: product
+        identifier: raw_product
+        description: Products of Greenweez
+        columns:
+          - name: products_id
+            description: Identifier of the product
             tests:
-                - unique
-                - not_null
+              - unique
+              - not_null
+          - name: purchSE_PRICE
+            description: Purchase price of the product
+
+      - name: ship
+        identifier: raw_gz_ship
+        description: Shipping information of Greenweez orders
+        columns:
+          - name: orders_id
+            description: Identifier of the order
+            tests:
+              - unique
+              - not_null
+          - name: shipping_fee
+            description: Shipping fee
+          - name: shipping_fee_1
+            description: Alternative shipping fee column
+          - name: logCost
+            description: Logistic cost
+          - name: ship_cost
+            description: Shipping cost
