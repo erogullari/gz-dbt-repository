@@ -2,14 +2,17 @@ version: 2
 
 sources:
   - name: raw
-    database: data-analytics-469406
     schema: gz_raw_data
+    description: Dataset that contains tables
     tables:
       - name: sales
         identifier: raw_gz_sales
+        description: Sale data at Greenweez
 
       - name: product
-        identifier: raw_gz_product
+        identifier: raw_product
+        description: Product catalogue at Greenweez
 
       - name: ship
         identifier: raw_gz_ship
+        description: Shipment information of each order
